@@ -1,14 +1,35 @@
 " Douglas Black
 " https://github.com/dougblack/dotfiles/blob/master/.vimrc
+" Vim Plug {{{
+call plug#begin('~/.vim/plugged')
+Plug 'bling/vim-airline'
+Plug 'elixir-editors/vim-elixir'
+Plug 'janko-m/vim-test'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/syntastic'
+Plug 'simnalamburt/vim-mundo'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'vimwiki/vimwiki'
+Plug 'tmhedberg/SimpylFold' 
+Plug 'vim-scripts/indentpython.vim'
+Plug 'nvie/vim-flake8'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+" Plug 'Valloric/YouCompleteMe'
+call plug#end()
+" }}}
 " Colors {{{
 syntax enable           " enable syntax processing
-colorscheme badwolf
+" colorscheme badwolf
 set termguicolors
 " }}}
 " Misc {{{
 set backspace=indent,eol,start
 let g:vimwiki_list = [{'path': '~/.wiki/'}]
 set clipboard=unnamed
+set encoding=utf-8
 " }}}
 " Spaces & Tabs {{{
 set tabstop=4           " 4 space tab
@@ -36,10 +57,12 @@ set hlsearch            " highlight all matches
 " }}}
 " Folding {{{
 "=== folding ===
+let g:SimpylFold_fold_docstring = 1
+let g:SimpylFold_fold_import = 1
+let g:SimpylFold_fold_blank = 1
 set foldmethod=indent   " fold based on indent level
 set foldnestmax=10      " max 10 depth
 set foldenable          " don't fold files by default on open
-nnoremap <space> za
 set foldlevelstart=10   " start with fold level of 1
 " }}}
 " Line Shortcuts {{{
@@ -67,7 +90,6 @@ nnoremap <leader>r :call <SID>RunFile()<CR>
 nnoremap <leader>b :call <SID>BuildFile()<CR>
 vnoremap <leader>y "+y
 " }}}
-
 " CtrlP {{{
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
@@ -75,9 +97,10 @@ let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
 " }}}
 " Syntastic {{{
+let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
-let g:syntastic_python_python_exec = 'python3'
+let g:syntastic_python_python_exec = 'python'
 " }}}
 " AutoGroups {{{
 augroup configgroup
@@ -106,25 +129,6 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set backupskip=/tmp/*,/private/tmp/*
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set writebackup
-" }}}
-" Vim Plug {{{
-call plug#begin('~/.vim/plugged')
-Plug 'bling/vim-airline'
-Plug 'derekwyatt/vim-scala'
-Plug 'elixir-editors/vim-elixir'
-Plug 'fatih/vim-go'
-Plug 'janko-m/vim-test'
-Plug 'keith/swift.vim'
-Plug 'kien/ctrlp.vim'
-Plug 'leafgarland/typescript-vim'
-Plug 'moll/vim-node'
-Plug 'scrooloose/syntastic'
-Plug 'simnalamburt/vim-mundo'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'vimwiki/vimwiki'
-call plug#end()
 " }}}
 " airline {{{
 set laststatus=2
@@ -181,6 +185,36 @@ function! <SID>BuildFile()
         :GoBuild
     endif
 endfunc
+" }}}
+" PEP8 {{{
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ softtabstop=4
+    \ shiftwidth=4
+    \ textwidth=79
+    \ expandtab
+    \ autoindent
+    \ fileformat=unix
+" }}}
+" fullstack {{{
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+" }}}
+" badwhitespace {{{
+au BufRead, BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+" }}}
+" YouCompleteMe {{{
+" let g:ycm_autoclose_preview_window_after_completion=1
+" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+" }}}
+" Misc Python {{{
+let python_highlight_all=1
+syntax on
+" }}}
+" NerdTree {{{
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 " }}}
 "
 

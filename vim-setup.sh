@@ -4,3 +4,5 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 # Add Vim Config file
 cp ./.vimrc ~/.vimrc
+echo "Uncomment YouCompleteMe setup and follow the process"
+# python ~/.vim/plugged/YouCompleteMe/install.py
